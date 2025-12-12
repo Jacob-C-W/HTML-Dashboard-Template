@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Tool Details Page – Template -->
+  <meta charset="UTF-8" />
+  <title>Tool – Template Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-gradient-start: #1d4ed8;
+      --bg-gradient-end: #020617;
+      --panel-bg: rgba(15, 23, 42, 0.95);
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top left,
+        var(--bg-gradient-start),
+        var(--bg-gradient-end)
+      );
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      margin: 24px;
+    }
+
+    /* Top nav – this file is in /tools/, so paths go up one level (../) */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .top-nav-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .top-nav-menu {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .top-nav-menu a {
+      text-decoration: none;
+      color: var(--text-main);
+      padding: 4px 8px;
+      border-radius: 999px;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    .top-nav-menu a:hover {
+      background: rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .dashboard {
+      margin-top: 12px;
+      display: flex;
+      background: var(--panel-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    /* SIDEBAR (same Quick Links pattern) */
+    .sidebar {
+      width: 260px;
+      padding: 16px 14px;
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.92)
+      );
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .logo {
+      font-weight: 650;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .env {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .sidebar-section { margin-top: 4px; }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin: 0 0 6px;
+    }
+    /* Quick Links container: has border + scroll if long */
+    .sidebar-quick-wrap {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 6px 4px;
+    /* Let this grow with screen height, then scroll if needed */
+    max-height: calc(95vh - 220px);
+    overflow-y: auto;
+    }
+    /* Optional nicer scrollbars (WebKit-based browsers) */
+    .sidebar-quick-wrap::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sidebar-quick-wrap::-webkit-scrollbar { width: 6px; }
+    .sidebar-quick-wrap::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .sidebar-quick-wrap::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.7);
+      border-radius: 999px;
+    }
+
+    .sidebar-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-list a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid transparent;
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.05s ease,
+        box-shadow 0.15s ease;
+    }
+
+    .sidebar-link-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .sidebar-list a:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-subtle);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .sidebar-footer span { color: var(--text-main); }
+
+    /* MAIN AREA */
+    .main {
+      flex: 1;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .main-header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      background: radial-gradient(circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.96)
+      );
+      font-size: 0.9rem;
+    }
+
+    .card-title {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .tool-main-link {
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    .tool-main-link a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .tool-main-link a:hover {
+      text-decoration: underline;
+    }
+
+    .field-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .field-value {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .doc-list {
+      margin: 6px 0 0;
+      padding-left: 18px;
+      font-size: 0.9rem;
+    }
+
+    .doc-list a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .doc-list a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .page { margin: 10px; }
+      .dashboard { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-subtle);
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- Top nav: go up from /tools/ to root pages -->
+    <header class="top-nav">
+      <span class="top-nav-title">Network Dashboard – Tool Details</span>
+      <nav class="top-nav-menu">
+        <a href="../home.html">Home</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../maps.html">Maps</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </header>
+
+    <div class="dashboard">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <div class="logo" id="logo-text">TEST</div>
+          <div class="env" id="env-label">ENV</div>
+        </header>
+
+        <section class="sidebar-section">
+          <h2 class="sidebar-title">Quick Links</h2>
+          <div class="sidebar-quick-wrap">
+            <ul class="sidebar-list" id="quick-links">
+              <li class="no-js-placeholder">
+                <span style="font-size:0.8rem; color:var(--text-muted);">
+                  Quick links will appear here. Edit DASHBOARD_CONFIG in config.js.
+                </span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <footer class="sidebar-footer">
+          <div>Org: <span class="org-name" id="org-name">Test Org</span></div>
+          <div>Use: <span class="use-case" id="use-case">Example usage</span></div>
+        </footer>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+        <header class="main-header">
+          <h1 id="page-title">Example Tool Name</h1>
+          <p class="subtitle" id="page-subtitle">
+            More details, documentation, and links for this tool.
+          </p>
+        </header>
+
+        <!-- Summary card -->
+        <section class="card">
+          <h2 class="card-title">Summary</h2>
+          <p>
+            This is a short description of what the tool does and why the team uses it.
+            Keep it high-level and focused on the primary use cases.
+          </p>
+
+          <div class="tag-list">
+            <span class="tag">Category: Monitoring</span>
+            <span class="tag">Owner: Network Team</span>
+            <span class="tag">Environment: Prod</span>
+          </div>
+
+          <div class="tool-main-link">
+            <span class="field-label">Primary site:&nbsp;</span>
+            <!-- Replace with the real tool website -->
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+              https://example.com
+            </a>
+          </div>
+        </section>
+
+        <!-- Access details card -->
+        <section class="card">
+          <h2 class="card-title">Access Details</h2>
+
+          <p class="field-label">Web URL</p>
+          <p class="field-value">
+            <!-- Same as above or different URL -->
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+              https://example.com
+            </a>
+          </p>
+
+          <p class="field-label">Local / internal path (optional)</p>
+          <p class="field-value">
+            <!-- This is just documentation text; browsers typically won't run EXEs directly -->
+            <code>\\fileserver\tools\example-tool\</code>
+          </p>
+
+          <p class="field-label">Typical usage</p>
+          <p class="field-value">
+            Example: used by network engineers to view device status, run reports,
+            and troubleshoot incidents.
+          </p>
+        </section>
+
+        <!-- Documentation card -->
+        <section class="card">
+          <h2 class="card-title">Documentation & Notes</h2>
+          <p>
+            Link out to any runbooks, how-to guides, or internal docs for this tool.
+          </p>
+          <ul class="doc-list">
+            <li>
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                Internal how-to guide (wiki or SharePoint link)
+              </a>
+            </li>
+            <li>
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                Vendor documentation / official manual
+              </a>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Shared config (up one level from /tools/) -->
+  <script src="../config.js"></script>
+  <script>
+    // Use shared org + quick links, but you can override the page title/subtitle
+    applyDashboardConfig({
+      pageTitle: "Example Tool Name",
+      pageSubtitle: "More details, documentation, and links for this tool."
+    });
+  </script>
+</body>
+</html>

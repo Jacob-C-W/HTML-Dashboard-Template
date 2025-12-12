@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- About / Credits Page -->
+  <meta charset="UTF-8" />
+  <title>Network Dashboard – About & Usage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-gradient-start: #1d4ed8;
+      --bg-gradient-end: #020617;
+      --panel-bg: rgba(15, 23, 42, 0.95);
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top left,
+        var(--bg-gradient-start),
+        var(--bg-gradient-end)
+      );
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      margin: 24px;
+    }
+
+    /* Top nav */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .top-nav-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .top-nav-menu {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .top-nav-menu a {
+      text-decoration: none;
+      color: var(--text-main);
+      padding: 4px 8px;
+      border-radius: 999px;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    .top-nav-menu a:hover {
+      background: rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+    }
+
+    /* Main about content container */
+    .content {
+      margin-top: 12px;
+      background: var(--panel-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .content-header {
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .content-header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      letter-spacing: 0.03em;
+    }
+
+    .content-header p {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .page { margin: 10px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      background: radial-gradient(circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.96)
+      );
+      font-size: 0.9rem;
+    }
+
+    .card-title {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    pre {
+      margin: 8px 0 0;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #020617;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    /* FAQ using details/summary */
+    details {
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.96);
+      margin-top: 8px;
+      padding: 8px 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      outline: none;
+    }
+
+    details[open] {
+      background: radial-gradient(circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.96)
+      );
+    }
+
+    details p {
+      margin: 6px 0 0;
+      font-size: 0.85rem;
+    }
+
+    .inline-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .inline-link:hover {
+      text-decoration: underline;
+    }
+
+    .folder-structure {
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- TOP NAV -->
+    <header class="top-nav">
+      <span class="top-nav-title">Network Dashboard – About</span>
+      <nav class="top-nav-menu">
+        <a href="home.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="maps.html">Maps</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+
+    <!-- MAIN ABOUT CONTENT -->
+    <main class="content">
+      <header class="content-header">
+        <h1>About This Dashboard Template</h1>
+        <p>
+          Credits, purpose, and notes on how to configure and extend this HTML-based network dashboard.
+        </p>
+      </header>
+
+      <section class="grid">
+        <!-- Credits / Use Case -->
+        <article class="card">
+          <h2 class="card-title">Credits</h2>
+          <p>
+            This dashboard template was designed as a reusable, static HTML “start page”
+            for network teams, home labs, and multi-org environments.
+          </p>
+
+          <p class="muted" style="margin-top:8px;">
+            <strong>Author:</strong> Jacob-C-W<br />
+            <strong>Assistant / Design Helper:</strong> ChatGPT (OpenAI)
+          </p>
+
+          <div class="tag-row">
+            <span class="tag">Static HTML</span>
+            <span class="tag">Local / Git-backed</span>
+          </div>
+
+          <h3 class="card-title" style="margin-top:12px;">Primary Use Case</h3>
+          <p class="muted">
+            Provide a single, lightweight landing page that:
+          </p>
+          <ul class="muted" style="margin-top:4px; padding-left:18px;">
+            <li>Centralizes quick links for tools and consoles.</li>
+            <li>Organizes visual maps and device groups.</li>
+            <li>Exposes troubleshooting notes and runbooks.</li>
+            <li>Can be cloned and customized per org with minimal edits.</li>
+          </ul>
+        </article>
+
+        <!-- Folder Layout / High-level design -->
+        <article class="card">
+          <h2 class="card-title">Project Layout (Suggested)</h2>
+          <p class="muted">
+            A simple folder structure that keeps the main pages at the root,
+            and groups maps and tools into subfolders:
+          </p>
+          <pre class="folder-structure"><code>build/
+  home.html           ← main landing page
+  tools.html          ← list of tools
+  maps.html           ← maps index (device groups)
+  about.html          ← this page
+  config.js           ← shared config (org + quick links)
+
+  tools/
+    tool-template.html
+    &lt;tool-name&gt;.html  ← per-tool detail pages
+
+  images/
+    &lt;image-name&gt;.html  ← per-image
+
+  maps/
+    office-template/
+      office-template-firewalls.html
+      map-template.html
+    &lt;other-office&gt;/
+      ...</code></pre>
+          <p class="muted" style="margin-top:8px;">
+            You can rename <code>build/</code> to whatever folder name fits your repo
+            or web server layout. All links are relative.
+          </p>
+        </article>
+      </section>
+
+      <!-- CONFIG SNIPPETS -->
+      <section class="card">
+        <h2 class="card-title">Shared Configuration (config.js)</h2>
+        <p class="muted">
+          The dashboard uses a single JavaScript file to hold org-level settings and quick links.
+          Edit this once per project / environment.
+        </p>
+
+        <pre><code>// config.js
+// Global configuration for this dashboard project.
+
+window.DASHBOARD_CONFIG = {
+  // Org-level info (used in headers/footers on most pages)
+  business: "Test",
+  environment: "Test",
+  orgName: "Test Org",
+  useCase: "Example usage",
+
+  // Quick links for the sidebar (same across all pages)
+  quickLinks: [
+    { label: "Google", url: "https://www.google.com" },
+    { label: "YouTube", url: "https://www.youtube.com" },
+    { label: "GitHub", url: "https://github.com" },
+  ],
+};
+
+// Helper to apply shared config to a given page.
+// Call this from the page with a title/subtitle override.
+
+window.applyDashboardConfig = function (pageOptions = {}) {
+  const base = window.DASHBOARD_CONFIG || {};
+  const cfg = {
+    ...base,
+    pageTitle: pageOptions.pageTitle || base.pageTitle,
+    pageSubtitle: pageOptions.pageSubtitle || base.pageSubtitle,
+  };
+
+  // Basic text fields
+  const logoEl = document.getElementById("logo-text");
+  const envEl = document.getElementById("env-label");
+  const orgEl = document.getElementById("org-name");
+  const useEl = document.getElementById("use-case");
+  const titleEl = document.getElementById("page-title");
+  const subtitleEl = document.getElementById("page-subtitle");
+
+  if (logoEl) logoEl.textContent = cfg.business || "Test";
+  if (envEl) envEl.textContent = cfg.environment || "Test";
+  if (orgEl) orgEl.textContent = cfg.orgName || "Test Org";
+  if (useEl) useEl.textContent = cfg.useCase || "Example usage";
+  if (titleEl &amp;&amp; cfg.pageTitle) titleEl.textContent = cfg.pageTitle;
+  if (subtitleEl &amp;&amp; cfg.pageSubtitle) subtitleEl.textContent = cfg.pageSubtitle;
+
+  // Quick links in sidebar
+  const quickList = document.getElementById("quick-links");
+  if (quickList) {
+    quickList.innerHTML = "";
+
+    if (Array.isArray(cfg.quickLinks) &amp;&amp; cfg.quickLinks.length &gt; 0) {
+      cfg.quickLinks.forEach((item) =&gt; {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        const dot = document.createElement("span");
+        const labelSpan = document.createElement("span");
+
+        dot.className = "sidebar-link-dot";
+        labelSpan.textContent = item.label;
+
+        a.href = item.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+
+        a.appendChild(dot);
+        a.appendChild(labelSpan);
+
+        li.appendChild(a);
+        quickList.appendChild(li);
+      });
+    } else {
+      const li = document.createElement("li");
+      const span = document.createElement("span");
+      span.textContent = "No quick links defined.";
+      span.style.fontSize = "0.8rem";
+      span.style.color = "var(--text-muted)";
+      li.appendChild(span);
+      quickList.appendChild(li);
+    }
+  }
+};</code></pre>
+      </section>
+
+      <!-- USAGE + FAQ -->
+      <section class="card">
+        <h2 class="card-title">Usage &amp; Customization FAQ</h2>
+
+        <details open>
+          <summary>How do I change the business / org labels?</summary>
+          <p>
+            Open <code>config.js</code> and edit the <code>DASHBOARD_CONFIG</code> object:
+          </p>
+          <pre><code>window.DASHBOARD_CONFIG = {
+  business: "MyCompany",
+  environment: "Prod",
+  orgName: "MyCompany IT",
+  useCase: "Network Operations",
+  quickLinks: [ /* ... */ ],
+};</code></pre>
+          <p class="muted">
+            Most pages read these values automatically via
+            <code>applyDashboardConfig(...)</code>.
+          </p>
+        </details>
+
+        <details>
+          <summary>How do I customize Quick Links?</summary>
+          <p>
+            In <code>config.js</code>, update the <code>quickLinks</code> array:
+          </p>
+          <pre><code>quickLinks: [
+  { label: "New SolarWinds", url: "https://solarwinds.example.com" },
+  { label: "Zabbix",        url: "https://zabbix.example.com" },
+  { label: "Secret Server", url: "https://secrets.example.com" },
+],</code></pre>
+          <p class="muted">
+            Any page with a sidebar that has <code>id="quick-links"</code> will show the updated list.
+          </p>
+        </details>
+
+        <details>
+          <summary>How does a page apply the shared config?</summary>
+          <p>
+            At the bottom of each page (except standalone ones like this About page),
+            include the config file and call <code>applyDashboardConfig</code>:
+          </p>
+          <pre><code>&lt;!-- Example in home.html (in build/) --&gt;
+&lt;script src="config.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  applyDashboardConfig({
+    pageTitle: "Network Dashboard",
+    pageSubtitle: "Landing page for tools, maps, and docs.",
+  });
+&lt;/script&gt;</code></pre>
+          <p class="muted">
+            For pages in subfolders, adjust the path:
+            <code>&lt;script src="../config.js"&gt;</code> or
+            <code>&lt;script src="../../config.js"&gt;</code>.
+          </p>
+        </details>
+
+        <details>
+          <summary>How do I add a new office / device-group map page?</summary>
+          <p>
+            1. Create a new folder under <code>maps/</code> or reuse an existing one
+            (e.g. <code>maps/office-template/</code>).<br />
+            2. Copy an existing map page (like
+            <code>office-template-firewalls.html</code>) as a starting point.<br />
+            3. Update:
+          </p>
+          <ul class="muted" style="margin-top:4px; padding-left:18px;">
+            <li>
+              The <code>pageTitle</code> / <code>pageSubtitle</code> in the bottom script.
+            </li>
+            <li>
+              The horizontal map navigation links in the
+              <code>.map-nav-strip</code> section.
+            </li>
+            <li>
+              The map image <code>src</code> and Visio / PDF link.
+            </li>
+            <li>
+              The device table (hostnames, roles, IP addresses).
+            </li>
+          </ul>
+          <p class="muted">
+            Finally, add a link to this new page from <code>maps.html</code> under the
+            appropriate device group.
+          </p>
+        </details>
+
+        <details>
+          <summary>How do I add a new tool?</summary>
+          <p>
+            There are two steps:
+          </p>
+          <ol class="muted" style="margin-top:4px; padding-left:18px;">
+            <li>
+              In <code>tools.html</code>, duplicate the
+              <code>&lt;article class="tool-card"&gt;</code> block and edit:
+              <ul style="margin-top:4px; padding-left:18px;">
+                <li>Tool name and description.</li>
+                <li>
+                  <code>href="tools/&lt;tool-name&gt;.html"</code> for the
+                  “More details” link.
+                </li>
+                <li>
+                  The “Open” link URL (typically a web UI).
+                </li>
+              </ul>
+            </li>
+            <li>
+              Copy <code>tools/tool-template.html</code> to
+              <code>tools/&lt;tool-name&gt;.html</code> and customize:
+              <ul style="margin-top:4px; padding-left:18px;">
+                <li>Page title and subtitle.</li>
+                <li>Summary text and tags.</li>
+                <li>Primary site, access details, and documentation links.</li>
+              </ul>
+            </li>
+          </ol>
+        </details>
+
+        <details>
+          <summary>Why doesn’t the dashboard run EXE files directly?</summary>
+          <p class="muted">
+            Browsers intentionally prevent web pages from directly running local
+            executables for security reasons. Links to local paths (like
+            <code>file://</code> or <code>C:\...</code>) are treated as files to
+            view or download, not to execute.
+          </p>
+          <p class="muted">
+            For “desktop shortcut” behavior, use:
+          </p>
+          <ul class="muted" style="margin-top:4px; padding-left:18px;">
+            <li>Web URLs for web consoles (preferred).</li>
+            <li>Documented UNC paths (e.g. <code>\\server\share\tool</code>).</li>
+            <li>
+              OS-managed shortcuts or custom protocol handlers (advanced, outside this
+              static HTML template).
+            </li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Notes</h2>
+        <p class="muted">
+          This template intentionally avoids build systems, frameworks, and heavy
+          dependencies. It is designed to live comfortably in:
+        </p>
+        <ul class="muted" style="margin-top:4px; padding-left:18px;">
+          <li>A simple Git repo synced between team members.</li>
+          <li>A basic internal web server (NGINX, Apache, IIS, etc.).</li>
+          <li>Local files opened directly in a browser (with relative paths).</li>
+        </ul>
+        <p class="muted" style="margin-top:4px;">
+          Feel free to modify as needed for the requirements of your team or environment.
+          For reference, I primairly use this through git as a simple html page.
+          Last thing, the best notes aren't in the FAQ; they're in the comments of the code!
+        </p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

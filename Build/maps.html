@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Maps Home – Template -->
+  <meta charset="UTF-8" />
+  <title>Network Dashboard – Maps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-gradient-start: #1d4ed8;
+      --bg-gradient-end: #020617;
+      --panel-bg: rgba(15, 23, 42, 0.95);
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top left,
+        var(--bg-gradient-start),
+        var(--bg-gradient-end)
+      );
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      margin: 24px;
+    }
+
+    /* Top navigation bar */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .top-nav-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .top-nav-menu {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .top-nav-menu a {
+      text-decoration: none;
+      color: var(--text-main);
+      padding: 4px 8px;
+      border-radius: 999px;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    .top-nav-menu a:hover {
+      background: rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .dashboard {
+      margin-top: 12px;
+      display: flex;
+      background: var(--panel-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    /* Left sidebar with Quick Links */
+    .sidebar {
+      width: 260px;
+      padding: 16px 14px;
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.92)
+      );
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .logo {
+      font-weight: 650;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .env {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .sidebar-section { margin-top: 4px; }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin: 0 0 6px;
+    }
+    /* Quick Links container: has border + scroll if long */
+    .sidebar-quick-wrap {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 6px 4px;
+    /* Let this grow with screen height, then scroll if needed */
+    max-height: calc(95vh - 220px);
+    overflow-y: auto;
+    }
+    /* Optional nicer scrollbars (WebKit-based browsers) */
+    .sidebar-quick-wrap::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sidebar-quick-wrap::-webkit-scrollbar { width: 6px; }
+    .sidebar-quick-wrap::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .sidebar-quick-wrap::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.7);
+      border-radius: 999px;
+    }
+
+    .sidebar-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-list a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid transparent;
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.05s ease,
+        box-shadow 0.15s ease;
+    }
+
+    .sidebar-link-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .sidebar-list a:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-subtle);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .sidebar-footer span { color: var(--text-main); }
+
+    /* Main content area */
+    .main {
+      flex: 1;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .main-header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      background: radial-gradient(circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.96)
+      );
+      font-size: 0.9rem;
+    }
+
+    .card-title {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+    }
+
+    .category-list {
+      list-style: none;
+      padding: 0;
+      margin: 6px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.9rem;
+    }
+
+    .category-list a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .category-list a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .page { margin: 10px; }
+      .dashboard { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-subtle);
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .main-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- TOP NAV -->
+    <header class="top-nav">
+      <span class="top-nav-title">Network Dashboard – Maps</span>
+      <nav class="top-nav-menu">
+        <a href="home.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="maps.html">Maps</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+
+    <div class="dashboard">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <div class="logo" id="logo-text">TEST</div>
+          <div class="env" id="env-label">ENV</div>
+        </header>
+
+        <section class="sidebar-section">
+          <h2 class="sidebar-title">Quick Links</h2>
+          <div class="sidebar-quick-wrap">
+            <ul class="sidebar-list" id="quick-links">
+              <li class="no-js-placeholder">
+                <span style="font-size:0.8rem; color:var(--text-muted);">
+                  Quick links will appear here. Edit CONFIG.quickLinks in the script.
+                </span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <footer class="sidebar-footer">
+          <div>Org: <span class="org-name" id="org-name">Test Org</span></div>
+          <div>Use: <span class="use-case" id="use-case">Example usage</span></div>
+        </footer>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+        <header class="main-header">
+          <div>
+            <h1 id="page-title">Maps Overview</h1>
+            <p class="subtitle" id="page-subtitle">
+              Select a device group or site to view its maps, devices, and troubleshooting notes.
+            </p>
+          </div>
+        </header>
+
+        <section class="main-grid">
+          <article class="card">
+            <h2 class="card-title">Device Group Maps</h2>
+            <p>Example categories for firewalls, switching, or wireless at key locations.</p>
+            <ul class="category-list">
+              <!-- These link into the /maps/ folder -->
+              <li><a href="maps/office-template/office-template-firewalls.html">Office Template Maps</a></li>
+
+            </ul>
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">All Maps</h2>
+            <p>
+              Treat this page as a list for all maps:
+            </p>
+            <ul class="category-list">
+              <!-- These link into the /maps/ folder -->
+              <li><a href="maps/office-template/office-template-firewalls.html">Office Template Firewalls</a></li>
+              <li><a href="maps/office-template/office-template-switches.html">Office Template Switches</a></li>
+              <li><a href="maps/office-template/office-template-wireless.html">Office Template Wireless</a></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">How to Use This Page</h2>
+            <p>
+              Treat this page as the index for all map categories:
+            </p>
+            <ul class="category-list">
+              <li>Create one subpage per device group in <code>maps/</code>.</li>
+              <li>Each subpage should display at least one map image or Visio link.</li>
+              <li>Include device hostnames, IPs, and troubleshooting notes.</li>
+            </ul>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+   <script src="config.js"></script>
+  <script>
+    applyDashboardConfig({
+      pageTitle: "Maps Overview",
+      pageSubtitle: "Select a device group or site to view its maps and devices.",
+    });
+  </script>
+</body>
+</html>
