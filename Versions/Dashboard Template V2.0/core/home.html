@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    HTML-Dashboard-Template
+    Version 2.0
+    File: core/home.html
+
+    This is the main landing page for the dashboard.
+    It uses:
+      - core/styles.css for layout & theme
+      - js/config.example.js (or js/config.js in real instances)
+  -->
+  <meta charset="UTF-8" />
+  <title>Dashboard Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Shared stylesheet for all core pages -->
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+
+<body>
+  <div class="page">
+    <!-- ================================================================
+         TOP NAVIGATION
+         - Use relative links to other core pages
+         - You can rename these files as needed
+         ================================================================ -->
+    <header class="top-nav">
+      <span class="top-nav-title">Dashboard Template – Home</span>
+      <nav class="top-nav-menu">
+        <!-- For Version 2 we standardize on plural page names: tools, maps -->
+        <a href="home.html">Home</a>
+        <a href="tools/tools_home.html">Tools</a>
+        <a href="maps/maps_home.html">Maps</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+
+    <!-- ================================================================
+         DASHBOARD LAYOUT
+         - Left: sidebar (business/env + quick links)
+         - Right: main content area (cards)
+         ================================================================ -->
+    <div class="dashboard">
+      <!-- ==================== SIDEBAR ==================== -->
+      <aside class="sidebar">
+        <!-- Sidebar header: business + environment pills -->
+        <header class="sidebar-header">
+          <!-- These values are filled in by applyDashboardConfig() -->
+          <div class="logo-pill" id="sidebar-business">Business</div>
+          <div class="env-pill" id="sidebar-environment">Env</div>
+        </header>
+
+        <!-- Quick links section -->
+        <section class="sidebar-section">
+          <h2 class="sidebar-title">Quick Links</h2>
+
+          <!-- 
+            Quick links container. The JS config helper will inject
+            <li><a>...</a></li> items into this <ul>.
+          -->
+          <div class="sidebar-quick-wrap">
+            <ul class="sidebar-link-list" id="sidebar-quick-links">
+              <!-- Populated by applyDashboardConfig() -->
+            </ul>
+          </div>
+        </section>
+
+        <!-- Sidebar footer: org and use-case text -->
+        <footer class="sidebar-footer">
+          <div>Org: <span id="sidebar-org">Org Name</span></div>
+          <div>Use: <span id="sidebar-usecase">Use case description</span></div>
+        </footer>
+      </aside>
+
+      <!-- ==================== MAIN CONTENT ==================== -->
+      <main class="main">
+        <!-- Top header inside main area -->
+        <header>
+          <h1 class="main-header-title" id="page-title">
+            Dashboard Home
+          </h1>
+          <p class="main-header-subtitle" id="page-subtitle">
+            Reusable starting point for tools, map, and documentation.
+          </p>
+        </header>
+
+        <!-- 2-column grid of cards for high-level content -->
+        <section class="card-grid-2">
+          <!-- Card 1: Welcome / instructions -->
+          <article class="card">
+            <h2 class="card-title">Welcome</h2>
+            <p>
+              This is the Version 2 dashboard home template.
+              It is meant to be cloned into any environment
+              (home lab, enterprise network, client site) and
+              customized via config files instead of editing
+              the HTML structure directly.
+            </p>
+
+            <p class="text-muted text-small">
+              To get started, copy
+              <code>js/config.example.js</code> to
+              <code>js/config.js</code> and edit the values to
+              match your environment.
+            </p>
+          </article>
+
+          <!-- Card 2: Next steps / integration hints -->
+          <article class="card">
+            <h2 class="card-title">Next Steps</h2>
+            <ul class="text-muted">
+              <li>Update your business, environment, org, and use-case in <code>DASHBOARD_CONFIG</code>.</li>
+              <li>Add or edit quick links pointing to your own tools.</li>
+              <li>Open <code>tools/tools_home.html</code> to define your tool list.</li>
+              <li>Open <code>maps/maps_home.html</code> to organize map pages and assets.</li>
+            </ul>
+          </article>
+        </section>
+
+        <!-- Additional row for future widgets / live data -->
+        <section class="card-grid-2">
+          <article class="card">
+            <h2 class="card-title">Live Widget Placeholder</h2>
+            <p class="text-muted">
+              This area can later be wired to:
+            </p>
+            <ul class="text-muted">
+              <li>Local JSON under <code>core/data/</code></li>
+              <li>Simple scripts that export status to JSON</li>
+              <li>Backend APIs or webhooks returning JSON</li>
+            </ul>
+            <p class="text-muted text-small">
+              The goal is to keep the HTML static while swapping
+              in different data sources per environment.
+            </p>
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">Notes</h2>
+            <p class="text-muted">
+              All classes used here are defined in
+              <code>core/styles.css</code>. Try to reuse those
+              classes on other pages (tools, maps) so changes to
+              the stylesheet automatically update the whole
+              dashboard.
+            </p>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCRIPTS
+       - For testing: include config.example.js
+       - For real use: copy to config.js and include that instead
+       ================================================================ -->
+
+  <!-- Config + helper: defines window.DASHBOARD_CONFIG and applyDashboardConfig -->
+  <script src="js/config.example.js"></script>
+
+  <script>
+    // Apply global config to this page.
+    // When you create a real config.js, change the script src above.
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof applyDashboardConfig === "function") {
+        applyDashboardConfig({
+          pageTitle: "Dashboard Home",
+          pageSubtitle: "Reusable template for tools, map, and docs."
+        });
+      }
+    });
+  </script>
+</body>
+</html>
